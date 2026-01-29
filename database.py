@@ -6,7 +6,10 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 
-SQLALCHEMY_DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:postgres@localhost:5432/TodoApplicationDatabase')
+SQLALCHEMY_DATABASE_URL = os.getenv('DATABASE_URL')
+
+if not SQLALCHEMY_DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable is not set")
 
 
 engine = create_engine(
