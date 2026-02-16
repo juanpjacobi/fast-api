@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, Field
 from ..database import SessionLocal
 from ..models import Users
@@ -11,6 +11,7 @@ from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError
 from dotenv import load_dotenv
 import os
+from fastapi.templating import Jinja2Templates
 
 load_dotenv()
 
@@ -49,6 +50,19 @@ def get_db():
         db.close()
 
 db_dependency = Annotated[Session, Depends(get_db)]   
+
+templates = Jinja2Templates(directory="TodoApp/templates")
+
+### Pages ###
+@router.get("/login-page")
+async def login_page(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
+
+@router.get("/register-page")
+async def register_page(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request})
+
+### Endpoints ###
 
 def authenticate_user(username: str, password: str, db: Session):
     user = db.query(Users).filter(Users.username == username).first()
