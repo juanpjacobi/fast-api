@@ -1,0 +1,13 @@
+{
+  "root": "..",
+  "venvPath": "..",
+  "venv": "fastapienv",
+  "pythonVersion": "3.11",
+  "typeCheckingMode": "off",
+  "exclude": [
+    "**/fastapienv",
+    "**/__pycache__",
+    "**/alembic",
+    "**/.pytest_cache"
+  ]
+}
